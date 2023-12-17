@@ -1,0 +1,48 @@
+/*
+font-family: 'Barlow', sans-serif;
+font-family: 'Rajdhani', sans-serif; 
+*/
+
+/* Color palette:
+Rouge foncé : #d92332
+Rouge clair : #d94350
+Saumon      : #d9777f
+Noir        : #262526
+Blanc       : #F2F2F2 
+*/
+
+/* Titre principal */
+.headline {
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* Corps du texte */
+.text-body {
+  font-family: "Barlow", sans-serif;
+}
+/* Styles pour la navigation */
+.container-fluid.sticky-top {
+  background-color: #d92332;
+}
+
+a {
+  font-family: "Barlow", sans-serif;
+}
+.saumon {
+  color: #d9777f;
+}
+
+#btn {
+  background-color: #262526;
+  color: #f2f2f2;
+  font-family: "Barlow", sans-serif;
+}
+
+.container-fluid.sticky-top h1,
+.container-fluid.sticky-top a.navbar-brand,
+.container-fluid.sticky-top .navbar-nav .nav-link {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Ajoutez d'autres styles pour les autres polices Figtree */
