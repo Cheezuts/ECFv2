@@ -13,7 +13,7 @@ class Database
     private $db_host;
     private $pdo;
 
-    public function __construct($db_name, $db_user = 'root', $db_pass = 'toor', $db_host = 'localhost')
+    public function __construct($db_name, $db_user = 'root', $db_pass = '', $db_host = 'localhost')
     {
         $this->db_name = $db_name;
         $this->db_user = $db_user;
@@ -24,7 +24,7 @@ class Database
     private function getPDO()
     {
         if ($this->pdo === null) {
-            $pdo = new PDO('mysql:host=localhost;dbname=ECFv2;charset=utf8', 'root', 'toor');
+            $pdo = new PDO('mysql:host=localhost;dbname=ECFv2;charset=utf8', 'root', '');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo = $pdo;
             return $pdo;
@@ -33,17 +33,32 @@ class Database
         return $this->pdo;
     }
 
-    public function query($statement, $class_name, $one = false)
+    public function query($statement, $class_name = null, $one = false)
     {
         $req = $this->getPDO()->query($statement);
-        $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
-        $datas = $req->fetchAll(PDO::FETCH_CLASS, $class_name);
-        if ($one) {
-            $datas = $req->fetch();
+        if ($class_name === null) {
+            // Utiliser un tableau associatif si aucune classe n'est spécifiée
+            if ($one) {
+                $data = $req->fetch(PDO::FETCH_ASSOC);
+            } else {
+                $data = $req->fetchAll(PDO::FETCH_ASSOC);
+            }
         } else {
-            $datas = $req->fetchAll();
+            // Utiliser la classe spécifiée
+            $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
+            if ($one) {
+                $data = $req->fetch();
+            } else {
+                $data = $req->fetchAll();
+            }
         }
-        return $datas;
+        return $data;
+    }
+
+    public function getAllservices()
+    {
+        $statement = 'SELECT * FROM services';
+        return $this->query($statement, 'App\Model\Services');
     }
 
     public function prepare($statement, $attributes, $class_name, $one = false)
